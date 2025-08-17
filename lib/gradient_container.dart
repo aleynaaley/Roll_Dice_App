@@ -1,27 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:rool_dice_app/styled_text.dart';
 
 const startAligment = Alignment.topLeft;        //(const )final sabit , var değiştirilebilir olarak kullanılıyor
 const endAligment = Alignment.bottomRight;
 
 class GradientSContainer extends StatelessWidget {
-  const GradientSContainer({super.key});
+  const GradientSContainer({super.key, required this.colors});
+
+  final List<Color> colors;
   @override
   Widget build(context) {
     return Container(
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-             Color.fromARGB(255, 2, 16, 31),
-             Color.fromARGB(255, 4, 37, 69),
-             Color.fromARGB(255, 8, 67, 126),
-             Color.fromARGB(255, 54, 91, 127),
-          ],
+          colors: colors,
           begin: startAligment,
           end: endAligment,
         ),
       ),
-      child: const Center(child: StyledText()),
+      child: Center(child: Image.asset('assets/images/bir.png', width: 200, height: 200,)),
     );
   }
 }
