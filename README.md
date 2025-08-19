@@ -3,7 +3,7 @@
 Basit bir **Flutter** projesi: ekrandaki butona tıklayınca 1 ile 6 arasında rastgele bir zar görüntüsü gösterir.  
 
 ## 📸 Ekran Görüntüsü
-![EkranGörüntüsü](dice/roll_dice.jpg)
+![EkranGörüntüsü](dice/roll-dice.png)
 
 
 
