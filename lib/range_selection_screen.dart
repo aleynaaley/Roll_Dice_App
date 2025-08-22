@@ -77,7 +77,7 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
                       color: Colors.white,
                     ),
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 55),
                   
                   // Min değer girişi
                   Container(
@@ -90,14 +90,18 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: const InputDecoration(
-                        labelText: 'Minimum değer',
+                        hintText: 'Minimum değer',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                           borderSide: BorderSide.none,
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
-                        contentPadding: EdgeInsets.all(20),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       ),
                       style: const TextStyle(fontSize: 18),
                       validator: (value) {
@@ -129,14 +133,18 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
                       keyboardType: TextInputType.number,
                       inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                       decoration: const InputDecoration(
-                        labelText: 'Maksimum değer',
+                        hintText: 'Maksimum değer',
+                        hintStyle: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 14,
+                        ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(15)),
                           borderSide: BorderSide.none,
                         ),
                         filled: true,
                         fillColor: Colors.transparent,
-                        contentPadding: EdgeInsets.all(20),
+                        contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
                       ),
                       style: const TextStyle(fontSize: 18),
                       validator: (value) {

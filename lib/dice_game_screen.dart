@@ -18,7 +18,6 @@ class DiceGameScreen extends StatefulWidget {
 }
 
 class _DiceGameScreenState extends State<DiceGameScreen> {
-  late int currentDiceRoll;
   final Random randomizer = Random();
   List<String> backgroundImages = [];
   String currentBackgroundImage = '';
@@ -27,7 +26,6 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
   @override
   void initState() {
     super.initState();
-    currentDiceRoll = widget.minValue;
     
     // Aralığa göre arka plan görsel listesi al
     backgroundImages = BackgroundManager.getBackgroundsForRange(
@@ -44,18 +42,38 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
       isRolling = true;
     });
 
-    // Rastgele arka plan seç (girilen aralıktan)
-    int randomIndex = randomizer.nextInt(backgroundImages.length);
-    currentBackgroundImage = backgroundImages[randomIndex];
+    // Hızlı background geçişi animasyonu
+    _startBackgroundAnimation();
+  }
 
-    // Kısa gecikmeden sonra rolling'i false yap
-    Future.delayed(const Duration(milliseconds: 300), () {
-      setState(() {
-        isRolling = false;
-      });
-    });
-
-    setState(() {});
+  void _startBackgroundAnimation() {
+    int animationCount = 0;
+    const int totalAnimations = 20; // 15 kere hızlı geçiş
+    
+    void changeBackground() {
+      if (animationCount < totalAnimations) {
+        setState(() {
+          // Rastgele background seç
+          int randomIndex = randomizer.nextInt(backgroundImages.length);
+          currentBackgroundImage = backgroundImages[randomIndex];
+        });
+        
+        animationCount++;
+        // İlk 17 geçiş hızlı, son 3 yavaşlayarak
+        int delay = animationCount < 17 ? 100 : 200 + (animationCount - 17) * 100;
+        
+        Future.delayed(Duration(milliseconds: delay), changeBackground);
+      } else {
+        // Son background'u seç ve dur
+        setState(() {
+          int finalIndex = randomizer.nextInt(backgroundImages.length);
+          currentBackgroundImage = backgroundImages[finalIndex];
+          isRolling = false;
+        });
+      }
+    }
+    
+    changeBackground();
   }
 
   @override
