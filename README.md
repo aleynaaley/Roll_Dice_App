@@ -31,7 +31,7 @@ Kullanıcı uygulamayı açtığında karşısına çıkan ekran.
 ### 🔢 Range Selection Screen
 Kullanıcı minimum ve maksimum değerleri seçerek zar aralığını belirler.  
 
-![Range Selection Screen](assets/images/range_selection.png)
+![Range Selection Screen](assets/images/_screen.png)
 
 ---
 
@@ -39,7 +39,7 @@ Kullanıcı minimum ve maksimum değerleri seçerek zar aralığını belirler.
 Ekrana dokunarak zar atılır.  
 Arka plan rastgele değişir ve seçilen aralıkta sonuç döner.  
 
-![Dice Game Screen](assets/images/dice_game.png)
+![Dice Game Screen](assets/images/dice.png)
 
 ---
 
