@@ -205,7 +205,7 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
                       ),
                       child: Text('Oyunu Başlat',
                         style: GoogleFonts.jaro(
-                          fontSize: 30,
+                          fontSize: 25,
                           fontWeight: FontWeight.w400,
                           color: Colors.black,
                         ),),

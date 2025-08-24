@@ -57,7 +57,7 @@ class WelcomeScreen extends StatelessWidget {
                       child: Text(
                         'ZAR AT',
                         style: GoogleFonts.jaro(
-                          fontSize: 55,
+                          fontSize: 45,
                           fontWeight: FontWeight.w400,
                           color: Colors.black,
                         ),
