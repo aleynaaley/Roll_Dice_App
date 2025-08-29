@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import 'package:rool_dice_app/range_selection_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
@@ -13,6 +12,15 @@ class WelcomeScreen extends StatefulWidget {
 class _WelcomeScreenState extends State<WelcomeScreen> {
   int selectedTheme = 0; // 0-5 arası tema
   int selectedDiceCount = 1; // 1,2,4 olabilir
+
+  final List<String> themeNames = [
+    "PASTEL",
+    "WARM",
+    "SKY",
+    "EARTH",
+    "SPRING",
+    "CANDY",
+  ];
 
   void _showThemeSelector() {
     showModalBottomSheet(
@@ -38,7 +46,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                     mainAxisSpacing: 16,
                     crossAxisSpacing: 16,
                   ),
-                  itemCount: 6,
+                  itemCount: themeNames.length,
                   itemBuilder: (context, index) {
                     final isSelected = selectedTheme == index;
                     return GestureDetector(
@@ -49,14 +57,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Navigator.pop(context);
                       },
                       child: Container(
+                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color:
-                              Colors.primaries[index % Colors.primaries.length],
+                          color: Colors.primaries[index % Colors.primaries.length],
                           borderRadius: BorderRadius.circular(12),
-                          border:
-                              isSelected
-                                  ? Border.all(color: Colors.black, width: 3)
-                                  : null,
+                          border: isSelected
+                              ? Border.all(color: Colors.black, width: 3)
+                              : null,
+                        ),
+                        child: Text(
+                          themeNames[index],
+                          style: GoogleFonts.jaro(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     );
@@ -88,23 +103,22 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               const SizedBox(height: 20),
               Wrap(
                 spacing: 20,
-                children:
-                    [1, 2, 4].map((count) {
-                      final isSelected = selectedDiceCount == count;
-                      return ChoiceChip(
-                        label: Text(
-                          "$count Zar",
-                          style: GoogleFonts.jaro(fontSize: 20),
-                        ),
-                        selected: isSelected,
-                        onSelected: (_) {
-                          setState(() {
-                            selectedDiceCount = count;
-                          });
-                          Navigator.pop(context);
-                        },
-                      );
-                    }).toList(),
+                children: [1, 2, 4].map((count) {
+                  final isSelected = selectedDiceCount == count;
+                  return ChoiceChip(
+                    label: Text(
+                      "$count Zar",
+                      style: GoogleFonts.jaro(fontSize: 20),
+                    ),
+                    selected: isSelected,
+                    onSelected: (_) {
+                      setState(() {
+                        selectedDiceCount = count;
+                      });
+                      Navigator.pop(context);
+                    },
+                  );
+                }).toList(),
               ),
             ],
           ),
@@ -135,7 +149,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                   onTap: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const RangeSelectionScreen(),
+                        builder: (context) => RangeSelectionScreen(
+                          selectedTheme: selectedTheme,
+                          selectedDiceCount: selectedDiceCount,
+                        ),
                       ),
                     );
                   },
@@ -165,14 +182,13 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         style: GoogleFonts.jaro(
                           fontSize: 45,
                           fontWeight: FontWeight.w400,
-                          color: Colors.black,
+                          color: const Color.fromARGB(255, 255, 255, 255),
                         ),
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(height: 20),
-                // Yeni Butonlar
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -181,12 +197,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        backgroundColor: const Color.fromARGB(255, 60, 59, 59).withOpacity(0.7),
+                        backgroundColor:
+                            const Color.fromARGB(255, 60, 59, 59).withOpacity(0.7),
                       ),
                       onPressed: _showThemeSelector,
                       child: Text(
                         "Tema Seç",
-                        style: GoogleFonts.jaro(fontSize: 25, fontWeight: FontWeight.w400, color: Colors.white,)
+                        style: GoogleFonts.jaro(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -195,12 +216,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        backgroundColor: const Color.fromARGB(255, 60, 59, 59).withOpacity(0.7),
+                        backgroundColor:
+                            const Color.fromARGB(255, 60, 59, 59).withOpacity(0.7),
                       ),
                       onPressed: _showDiceSelector,
                       child: Text(
                         "Zar Sayısı",
-                        style: GoogleFonts.jaro(fontSize: 25, fontWeight: FontWeight.w400, color: Colors.white,)
+                        style: GoogleFonts.jaro(
+                          fontSize: 25,
+                          fontWeight: FontWeight.w400,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],

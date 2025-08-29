@@ -4,7 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:rool_dice_app/dice_game_screen.dart';
 
 class RangeSelectionScreen extends StatefulWidget {
-  const RangeSelectionScreen({super.key});
+  final int selectedTheme;
+  final int selectedDiceCount;
+
+  const RangeSelectionScreen({
+    super.key,
+    required this.selectedTheme,
+    required this.selectedDiceCount,
+  });
 
   @override
   State<RangeSelectionScreen> createState() => _RangeSelectionScreenState();
@@ -39,6 +46,8 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
           builder: (context) => DiceGameScreen(
             minValue: minValue,
             maxValue: maxValue,
+            selectedTheme: widget.selectedTheme,
+            selectedDiceCount: widget.selectedDiceCount,
           ),
         ),
       );
@@ -50,7 +59,6 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Arka plan resmi
           Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -59,14 +67,12 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
               ),
             ),
           ),
-
-          // Sol üstte geri butonu
           Positioned(
             top: 50,
             left: 20,
             child: Container(
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
+                color: Colors.black.withOpacity(0.0),
                 borderRadius: BorderRadius.circular(25),
               ),
               child: IconButton(
@@ -81,8 +87,6 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
               ),
             ),
           ),
-
-          // Ana içerik
           Center(
             child: Padding(
               padding: const EdgeInsets.all(30),
@@ -92,100 +96,18 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'Kaç rakam arasında?',
+                      'Kaç rakam arasında zar atılsın?',
                       style: GoogleFonts.jaro(
                         fontSize: 30,
                         fontWeight: FontWeight.bold,
-                        color: Colors.white,
+                        color: const Color.fromARGB(255, 0, 0, 0),
                       ),
                     ),
                     const SizedBox(height: 55),
-
-                    // Min değer
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: TextFormField(
-                        controller: _minController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        decoration: const InputDecoration(
-                          hintText: 'Minimum değer',
-                          hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        ),
-                        style: const TextStyle(fontSize: 18),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Minimum değer giriniz';
-                          }
-                          final int? minVal = int.tryParse(value);
-                          if (minVal == null || minVal < 1) {
-                            return 'En az 1 olmalı';
-                          }
-                          if (minVal > 24) {
-                            return 'En fazla 24 olabilir';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-
+                    _buildNumberField(_minController, 'Minimum değer'),
                     const SizedBox(height: 20),
-
-                    // Max değer
-                    Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.9),
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: TextFormField(
-                        controller: _maxController,
-                        keyboardType: TextInputType.number,
-                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                        decoration: const InputDecoration(
-                          hintText: 'Maksimum değer',
-                          hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(15)),
-                            borderSide: BorderSide.none,
-                          ),
-                          filled: true,
-                          fillColor: Colors.transparent,
-                          contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                        ),
-                        style: const TextStyle(fontSize: 18),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Maksimum değer giriniz';
-                          }
-                          final int? maxVal = int.tryParse(value);
-                          if (maxVal == null || maxVal < 2) {
-                            return 'En az 2 olmalı';
-                          }
-                          if (maxVal > 24) {
-                            return 'En fazla 24 olabilir';
-                          }
-                          final int? minVal = int.tryParse(_minController.text);
-                          if (minVal != null && maxVal <= minVal) {
-                            return 'Minimum değerden büyük olmalı';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-
+                    _buildNumberField(_maxController, 'Maksimum değer'),
                     const SizedBox(height: 40),
-
-                    // Başlat butonu
                     ElevatedButton(
                       onPressed: _startGame,
                       style: ElevatedButton.styleFrom(
@@ -203,19 +125,60 @@ class _RangeSelectionScreenState extends State<RangeSelectionScreen> {
                           borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      child: Text('Oyunu Başlat',
+                      child: Text(
+                        'Oyunu Başlat',
                         style: GoogleFonts.jaro(
                           fontSize: 25,
                           fontWeight: FontWeight.w400,
                           color: Colors.black,
-                        ),),
-                    ),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
             ),
-          ),
+          )
         ],
+      ),
+    );
+  }
+
+  Widget _buildNumberField(TextEditingController controller, String hint) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(1),
+        borderRadius: BorderRadius.circular(15),
+      ),
+      child: TextFormField(
+        controller: controller,
+        keyboardType: TextInputType.number,
+        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        decoration: InputDecoration(
+          hintText: hint,
+          hintStyle: const TextStyle(color: Colors.grey, fontSize: 14),
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(15)),
+            borderSide: BorderSide.none,
+          ),
+          filled: true,
+          fillColor: Colors.transparent,
+          contentPadding: const EdgeInsets.symmetric(
+            horizontal: 20,
+            vertical: 20,
+          ),
+        ),
+        style: const TextStyle(fontSize: 18),
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '$hint giriniz';
+          }
+          final int? val = int.tryParse(value);
+          if (val == null || val < 1 || val > 24) {
+            return '1-24 arası olmalı';
+          }
+          return null;
+        },
       ),
     );
   }

@@ -6,11 +6,15 @@ import 'package:rool_dice_app/background_gradients.dart';
 class DiceGameScreen extends StatefulWidget {
   final int minValue;
   final int maxValue;
+  final int selectedTheme;
+  final int selectedDiceCount;
 
   const DiceGameScreen({
     super.key,
     required this.minValue,
     required this.maxValue,
+    required this.selectedTheme,
+    required this.selectedDiceCount,
   });
 
   @override
@@ -26,45 +30,40 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
   @override
   void initState() {
     super.initState();
-    
-    // Aralığa göre arka plan görsel listesi al
     backgroundImages = BackgroundManager.getBackgroundsForRange(
-      widget.minValue, 
-      widget.maxValue
+      widget.minValue,
+      widget.maxValue,
+      theme: widget.selectedTheme,
     );
     currentBackgroundImage = backgroundImages[0];
   }
 
   void rollDice() {
     if (isRolling) return;
-    
+
     setState(() {
       isRolling = true;
     });
 
-    // Hızlı background geçişi animasyonu
     _startBackgroundAnimation();
   }
 
   void _startBackgroundAnimation() {
     int animationCount = 0;
-    const int totalAnimations = 20; // 15 kere hızlı geçiş
-    
+    const int totalAnimations = 20;
+
     void changeBackground() {
       if (animationCount < totalAnimations) {
         setState(() {
-          // Rastgele background seç
           int randomIndex = randomizer.nextInt(backgroundImages.length);
           currentBackgroundImage = backgroundImages[randomIndex];
         });
-        
+
         animationCount++;
-        // İlk 17 geçiş hızlı, son 3 yavaşlayarak
         int delay = animationCount < 17 ? 100 : 200 + (animationCount - 17) * 100;
-        
+
         Future.delayed(Duration(milliseconds: delay), changeBackground);
       } else {
-        // Son background'u seç ve dur
         setState(() {
           int finalIndex = randomizer.nextInt(backgroundImages.length);
           currentBackgroundImage = backgroundImages[finalIndex];
@@ -72,7 +71,7 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
         });
       }
     }
-    
+
     changeBackground();
   }
 
@@ -90,7 +89,6 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
           ),
           child: Stack(
             children: [
-              // Üst bilgi çubuğu
               Positioned(
                 top: 50,
                 left: 20,
@@ -98,7 +96,6 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    // Geri butonu
                     Container(
                       decoration: BoxDecoration(
                         color: Colors.black.withOpacity(0.5),
@@ -108,7 +105,10 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
                         onPressed: () {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
-                              builder: (context) => const RangeSelectionScreen(),
+                              builder: (context) => RangeSelectionScreen(
+                                selectedTheme: widget.selectedTheme,
+                                selectedDiceCount: widget.selectedDiceCount,
+                              ),
                             ),
                           );
                         },
@@ -119,7 +119,6 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
                         ),
                       ),
                     ),
-                    // Aralık bilgisi
                     Container(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 20,
@@ -141,8 +140,6 @@ class _DiceGameScreenState extends State<DiceGameScreen> {
                   ],
                 ),
               ),
-
-              // Alt bilgi
               Positioned(
                 bottom: 50,
                 left: 0,
