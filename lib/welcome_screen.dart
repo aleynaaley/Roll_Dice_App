@@ -22,6 +22,15 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     "CANDY",
   ];
 
+  final List<String> themePreviews = [
+    "assets/images/pastel_t.png",
+    "assets/images/warm_t.png",
+    "assets/images/sky_t.png",
+    "assets/images/earth_t.png",
+    "assets/images/spring_t.png",
+    "assets/images/candy_t.png",
+  ];
+
   void _showThemeSelector() {
     showModalBottomSheet(
       context: context,
@@ -42,9 +51,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 child: GridView.builder(
                   padding: const EdgeInsets.all(16),
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3,
+                    crossAxisCount: 2, // 2 kolon
                     mainAxisSpacing: 16,
                     crossAxisSpacing: 16,
+                    childAspectRatio: 1.2,
                   ),
                   itemCount: themeNames.length,
                   itemBuilder: (context, index) {
@@ -57,21 +67,34 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                         Navigator.pop(context);
                       },
                       child: Container(
-                        alignment: Alignment.center,
                         decoration: BoxDecoration(
-                          color: Colors.primaries[index % Colors.primaries.length],
                           borderRadius: BorderRadius.circular(12),
                           border: isSelected
                               ? Border.all(color: Colors.black, width: 3)
                               : null,
                         ),
-                        child: Text(
-                          themeNames[index],
-                          style: GoogleFonts.jaro(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                          ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Image.asset(
+                                  themePreviews[index],
+                                  fit: BoxFit.contain,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              themeNames[index],
+                              style: GoogleFonts.jaro(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            const SizedBox(height: 8),
+                          ],
                         ),
                       ),
                     );
