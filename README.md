@@ -11,10 +11,13 @@ Uygulama üç ana ekrandan oluşmaktadır:
 ---
 
 ## 🚀 Özellikler
-- 🎨 Özel arayüz tasarımı ve arka plan görselleri  
+- 🎨 Özel arayüz tasarımı ve tema paletleri  
 - 🔢 Minimum ve maksimum değer aralığı seçme  
 - 🎲 Seçilen aralıkta rastgele zar atma  
 - 🖼️ Zar atıldığında arka plan animasyonlu geçiş  
+- 🎨 6 farklı tema: **PASTEL, WARM, SKY, EARTH, SPRING, CANDY**  
+- 🌈 Tema paletleri Welcome Screen üzerinde küçük önizlemelerle seçilebilir  
+- 🔢 Zar sayısı: 1, 2 veya 4, ekran otomatik bölünür ve arka planlar eş zamanlı değişir   
 
 ---
 
@@ -22,9 +25,12 @@ Uygulama üç ana ekrandan oluşmaktadır:
 
 ### 🏠 Welcome Screen
 Kullanıcı uygulamayı açtığında karşısına çıkan ekran.  
-`ZAR AT` butonuna basarak oyuna geçiş yapılır.  
+**ZAR AT** butonuna basarak oyuna geçiş yapılır.  
+Ayrıca tema ve zar sayısı seçilebilir. 
 
 ![Welcome Screen](assets/images/welcome.png)
+
+![Welcome Screen](assets/images/theme.png)
 
 ---
 
@@ -38,6 +44,7 @@ Kullanıcı minimum ve maksimum değerleri seçerek zar aralığını belirler.
 ### 🎲 Dice Game Screen
 Ekrana dokunarak zar atılır.  
 Arka plan rastgele değişir ve seçilen aralıkta sonuç döner.  
+Tema seçimine göre arka plan değişir.
 
 ![Dice Game Screen](assets/images/dice.png)
 
